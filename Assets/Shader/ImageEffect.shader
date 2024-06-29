@@ -54,7 +54,7 @@ Shader "Custom/ImageEffect"
                 float2 centeredUV = v.uv - 0.5;
                 centeredUV.x *= _AspectRatio; 
 
-                o.uv = centeredUV *_Scale+ _Offset.xy;
+                o.uv = centeredUV * _Scale + _Offset.xy;
                 return o;
             }
 

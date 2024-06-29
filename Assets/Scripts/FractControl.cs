@@ -1,5 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
+
 
 public class FractControl : MonoBehaviour
 {
@@ -15,9 +15,12 @@ public class FractControl : MonoBehaviour
     public float ScaleSpeed = 1.0f;
     public float scale = 1.0f;
 
+
+    private float aspectRatio;
     void Start()
     {
-        material.SetFloat("_AspectRatio", Screen.width / (float)Screen.height);
+        aspectRatio = Screen.width / (float)Screen.height;
+        material.SetFloat("_AspectRatio", aspectRatio);
     }
 
     // Update is called once per frame
@@ -52,12 +55,23 @@ public class FractControl : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            offset += new Vector2(Input.mousePosition.x/Screen.width - 0.5f,Input.mousePosition.y/Screen.height - 0.5f) * scale;
+            CenterOnMousePosition();
             used = true;
         }
         offset.x = Mathf.Clamp(offset.x, -2.0f, 2.0f);
         offset.y = Mathf.Clamp(offset.y, -2.0f, 2.0f);
-        scale = Mathf.Clamp(scale, 0f, 50.0f);
+        scale = Mathf.Clamp(scale, 0f, 3.0f);
         return used;
     }
+    void CenterOnMousePosition()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Vector2 normalizedMousePos = new Vector2((mousePos.x - Screen.width/2.0f)/Screen.width, (mousePos.y - Screen.height/2.0f)/Screen.height);
+        normalizedMousePos.x *= aspectRatio;
+
+        // Calculate new offset to center the image on the mouse position
+        offset += normalizedMousePos*scale;
+    }
 }
+
+
