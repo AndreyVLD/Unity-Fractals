@@ -98,6 +98,7 @@ Shader "Custom/ImageEffect"
 
             float4 frag (FragmentInput input) : SV_Target
             {
+            
            
                uint iter = mandelbrot(input.uv,_MaxIter);
                return float4(getColorRainbow(iter).xyz/255,1);

@@ -25,11 +25,13 @@ public class FractControl : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if (useInput())
+    { 
+        if (useInput() || Screen.width / (float)Screen.height != aspectRatio)
         {
-            material.SetVector("_Offset", new Vector4(offset.x, offset.y));
+            aspectRatio = Screen.width / (float)Screen.height;
+            material.SetFloat("_AspectRatio", aspectRatio);
             material.SetFloat("_Scale", scale);
+            material.SetVector("_Offset", new Vector4(offset.x, offset.y));
         }
     }
 
