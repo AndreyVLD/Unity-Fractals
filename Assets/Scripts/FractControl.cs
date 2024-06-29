@@ -9,7 +9,7 @@ public class FractControl : MonoBehaviour
 
     [Header("Translate")]
     public float TranslateSpeed = 1.0f;
-    public Vector2 offset = new Vector2(-1f, -0.5f);
+    public Vector2 offset = new(-1f, -0.5f);
 
     [Header("Scale")]
     public float ScaleSpeed = 1.0f;
@@ -36,10 +36,10 @@ public class FractControl : MonoBehaviour
     bool useInput()
     {
         bool used = false;
-        Vector2 movement_xy = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        Vector2 movement_xy = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         if (!movement_xy.Equals(Vector2.zero))
         {
-            offset += movement_xy.normalized * TranslateSpeed * scale * Time.deltaTime;
+            offset += movement_xy.normalized * scale * TranslateSpeed * Time.deltaTime;
             used = true;
         }
 
@@ -60,17 +60,17 @@ public class FractControl : MonoBehaviour
         }
         offset.x = Mathf.Clamp(offset.x, -2.0f, 2.0f);
         offset.y = Mathf.Clamp(offset.y, -2.0f, 2.0f);
-        scale = Mathf.Clamp(scale, 0.0000001f, 3.0f);
+        scale = Mathf.Clamp(scale, 2.810247e-05f, 3.0f);
         return used;
     }
     void CenterOnMousePosition()
     {
         Vector3 mousePos = Input.mousePosition;
-        Vector2 normalizedMousePos = new Vector2((mousePos.x - Screen.width/2.0f)/Screen.width, (mousePos.y - Screen.height/2.0f)/Screen.height);
+        Vector2 normalizedMousePos = new Vector2(mousePos.x /Screen.width - 0.5f, mousePos.y/Screen.height - 0.5f);
         normalizedMousePos.x *= aspectRatio;
 
         // Calculate new offset to center the image on the mouse position
-        offset += normalizedMousePos*scale;
+        offset += normalizedMousePos * scale;
     }
 }
 
