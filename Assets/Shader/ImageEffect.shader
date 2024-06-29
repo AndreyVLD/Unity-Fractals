@@ -4,6 +4,7 @@ Shader "Custom/ImageEffect"
     {
         _Offset("Offset", Vector) = (-1,-0.5,0,0)
         _Scale("Scale", float) = 2
+        _MaxIter("Max Iterations", int) = 255
     }
     SubShader
     {
@@ -21,6 +22,7 @@ Shader "Custom/ImageEffect"
             float2 _Offset;
             float _Scale;
             float _AspectRatio;
+            int _MaxIter;
 
             struct MeshData
             {
@@ -62,7 +64,7 @@ Shader "Custom/ImageEffect"
             float4 frag (FragmentInput input) : SV_Target
             {
            
-               return mandelbrot(input.uv,255)/255;
+               return mandelbrot(input.uv,_MaxIter)/_MaxIter;
             }
             ENDCG
         }

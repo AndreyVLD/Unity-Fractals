@@ -60,7 +60,7 @@ public class FractControl : MonoBehaviour
         }
         offset.x = Mathf.Clamp(offset.x, -2.0f, 2.0f);
         offset.y = Mathf.Clamp(offset.y, -2.0f, 2.0f);
-        scale = Mathf.Clamp(scale, 0f, 3.0f);
+        scale = Mathf.Clamp(scale, 0.0000001f, 3.0f);
         return used;
     }
     void CenterOnMousePosition()
