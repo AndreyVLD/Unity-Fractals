@@ -48,6 +48,41 @@ Shader "Custom/ImageEffect"
 				return maxIter;
 			}
 
+            float4 getColorRed(uint iter)
+			{
+				if (iter == _MaxIter)
+					return float4(0,0,0,1);
+				float t = iter / (float)_MaxIter;
+				return float4(t, t*t, t*t*t, 1);
+			}
+
+            float3 getColorRainbow(uint iter)
+            {
+                if (iter == _MaxIter || iter <= 0)
+					return float4(0,0,0,1);
+                float i = iter % 16;
+                switch(i)
+                {
+                    case 0: return float3(66, 30, 15);
+                    case 1: return float3(25, 7, 26);
+                    case 2: return float3(9, 1, 47);
+                    case 3: return float3(4, 4, 73);
+                    case 4: return float3(0, 7, 100);
+                    case 5: return float3(12, 44, 138);
+                    case 6: return float3(24, 82, 177);
+                    case 7: return float3(57, 125, 209);
+                    case 8: return float3(134, 181, 229);
+                    case 9: return float3(211, 236, 248);
+                    case 10: return float3(241, 233, 191);
+                    case 11: return float3(248, 201, 95);
+                    case 12: return float3(255, 170, 0);
+                    case 13: return float3(204, 128, 0);
+                    case 14: return float3(153, 87, 0);
+                    case 15: return float3(106, 52, 3);
+                }
+                
+            }
+
             FragmentInput vert (MeshData v)
             {
                 FragmentInput o;
@@ -64,7 +99,8 @@ Shader "Custom/ImageEffect"
             float4 frag (FragmentInput input) : SV_Target
             {
            
-               return mandelbrot(input.uv,_MaxIter)/_MaxIter;
+               uint iter = mandelbrot(input.uv,_MaxIter);
+               return float4(getColorRainbow(iter).xyz/255,1);
             }
             ENDCG
         }
