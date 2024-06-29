@@ -39,7 +39,10 @@ public class FractControl : MonoBehaviour
         Vector2 movement_xy = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         if (!movement_xy.Equals(Vector2.zero))
         {
-            offset += movement_xy.normalized * scale * TranslateSpeed * Time.deltaTime;
+            if (movement_xy.magnitude > 1)
+                movement_xy.Normalize();
+
+            offset += movement_xy * scale * TranslateSpeed * Time.deltaTime;
             used = true;
         }
 
