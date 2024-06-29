@@ -3,7 +3,7 @@ Shader "Custom/ImageEffect"
     Properties
     {
         _Offset("Offset", Vector) = (-1,-0.5,0,0)
-        _Scale("Scale", Range(0, 10)) = 2
+        _Scale("Scale", float) = 2
     }
     SubShader
     {
@@ -50,14 +50,18 @@ Shader "Custom/ImageEffect"
             {
                 FragmentInput o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                v.uv.x = v.uv.x * _AspectRatio;
-                o.uv = (v.uv+_Offset.xy)*_Scale;
+
+                float2 centeredUV = v.uv - 0.5;
+                centeredUV.x *= _AspectRatio; 
+
+                o.uv = centeredUV *_Scale+ _Offset.xy;
                 return o;
             }
 
 
             float4 frag (FragmentInput input) : SV_Target
             {
+           
                return mandelbrot(input.uv,255)/255;
             }
             ENDCG
